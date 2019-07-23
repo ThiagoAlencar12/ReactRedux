@@ -1,55 +1,60 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { MdAddShoppingCart } from 'react-icons/md';
+import api from '../../services/api';
+import { FormatarPreco } from '../../util/format';
 
 import { ProdutoLista } from './styles';
 
-export default function Home() {
-  return (
-    <ProdutoLista>
-      <li>
-        <img
-          src="https://a-static.mlcdn.com.br/210x210/notebook-dell-inspiron-i15-3567-d15p-intel-core-i3-4gb-1tb-156-linux/magazineluiza/221658600/53763c0433c8619a79c4847ebb66cb79.jpg"
-          alt="Notebook"
-        />
-        <strong>Notebook Dell</strong>
-        <span>Preço: 1.254,85</span>
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
+class Home extends Component {
+  state = {
+    produto: [],
+  };
 
-      <li>
-        <img
-          src="https://a-static.mlcdn.com.br/210x210/notebook-dell-inspiron-i15-3567-d15p-intel-core-i3-4gb-1tb-156-linux/magazineluiza/221658600/53763c0433c8619a79c4847ebb66cb79.jpg"
-          alt="Notebook"
-        />
-        <strong>Notebook Dell</strong>
-        <span>Preço: 1.254,85</span>
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
+  async componentDidMount() {
+    const resposta = await api.get('products');
 
-      <li>
-        <img
-          src="https://a-static.mlcdn.com.br/210x210/notebook-dell-inspiron-i15-3567-d15p-intel-core-i3-4gb-1tb-156-linux/magazineluiza/221658600/53763c0433c8619a79c4847ebb66cb79.jpg"
-          alt="Notebook"
-        />
-        <strong>Notebook Dell</strong>
-        <span>Preço: 1.254,85</span>
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-    </ProdutoLista>
-  );
+    const data = resposta.data.map(produto => ({
+      ...produto,
+      precoFormatado: FormatarPreco(produto.price),
+    }));
+
+    this.setState({ produto: data });
+  }
+
+  AdicionarProduto = produto => {
+    // quando faz esse dispatch das props, todos os reducers sao ativados
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'ADD_TO_CART',
+      produto,
+    });
+  };
+
+  render() {
+    const { produto } = this.state;
+
+    return (
+      <ProdutoLista>
+        {produto.map(produtos => (
+          <li key={produtos.id}>
+            <img src={produtos.image} alt={produto.title} />
+            <strong>{produtos.title}</strong>
+            <span>{produtos.precoFormatado}</span>
+            <button
+              type="button"
+              onClick={() => this.AdicionarProduto(produtos)}
+            >
+              <div>
+                <MdAddShoppingCart size={16} color="#FFF" /> 3
+              </div>
+              <span>ADICIONAR AO CARRINHO</span>
+            </button>
+          </li>
+        ))}
+      </ProdutoLista>
+    );
+  }
 }
+export default connect()(Home);
