@@ -24,11 +24,11 @@ class Home extends Component {
     this.setState({ produto: data });
   }
 
-  AdicionarProduto = produto => {
+  AdicionarProduto = id => {
     // quando faz esse dispatch das props, todos os reducers sao ativados
-    const { addToCart } = this.props;
+    const { addToCartRequest } = this.props;
 
-    addToCart(produto);
+    addToCartRequest(id);
   };
 
   render() {
@@ -43,7 +43,7 @@ class Home extends Component {
             <span>{produtos.precoFormatado}</span>
             <button
               type="button"
-              onClick={() => this.AdicionarProduto(produtos)}
+              onClick={() => this.AdicionarProduto(produtos.id)}
             >
               <div>
                 <MdAddShoppingCart size={16} color="#FFF" />{' '}

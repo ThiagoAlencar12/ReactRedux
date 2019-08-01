@@ -11,13 +11,13 @@ import { FormatarPreco } from '../../util/format';
 import { Container, ProdutoTabela, Total } from './styles';
 import * as CartActions from '../../store/modules/cart/action';
 
-function Cart({ cart, total, removeFromCart, atualizarMonte }) {
+function Cart({ cart, total, removeFromCart, atualizarMonteRequest }) {
   function incrementa(produto) {
-    atualizarMonte(produto.id, produto.amount + 1);
+    atualizarMonteRequest(produto.id, produto.amount + 1);
   }
 
   function decrementa(produto) {
-    atualizarMonte(produto.id, produto.amount - 1);
+    atualizarMonteRequest(produto.id, produto.amount - 1);
   }
 
   return (
