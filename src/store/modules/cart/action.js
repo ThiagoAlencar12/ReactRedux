@@ -12,6 +12,8 @@ export function addToCartSuccess(produto) {
   };
 }
 
+export function endCart(produto) {}
+
 export function removeFromCart(id) {
   return { type: '@cart/REMOVE', id };
 }

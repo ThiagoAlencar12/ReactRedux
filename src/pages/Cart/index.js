@@ -6,6 +6,7 @@ import {
   MdAddCircleOutline,
   MdDelete,
 } from 'react-icons/md';
+import { toast } from 'react-toastify';
 import { FormatarPreco } from '../../util/format';
 
 import { Container, ProdutoTabela, Total } from './styles';
@@ -15,6 +16,8 @@ function Cart({ cart, total, removeFromCart, atualizarMonteRequest }) {
   function incrementa(produto) {
     atualizarMonteRequest(produto.id, produto.amount + 1);
   }
+
+  function EndProduct(produto) {}
 
   function decrementa(produto) {
     atualizarMonteRequest(produto.id, produto.amount - 1);
@@ -76,7 +79,12 @@ function Cart({ cart, total, removeFromCart, atualizarMonteRequest }) {
       </ProdutoTabela>
 
       <footer>
-        <button type="button"> Finalize seu pedido</button>
+        <button
+          type="button"
+          onClick={() => toast.success('Finalizado com sucesso')}
+        >
+          Finalize seu pedido
+        </button>
 
         <Total>
           <span>TOTAL: </span>

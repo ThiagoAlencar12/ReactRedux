@@ -28,6 +28,8 @@ module.exports = {
       'warn',
       {extensions: ['.jsx','.js'] }
     ],
+    // Regra proptypes
+    'react/prop-types': 0,
     'import/prefer-default-export': 'off',
     'no-param-reassign': 'off',
     'no-console': ["error", { allow: ["tron"]} ]
